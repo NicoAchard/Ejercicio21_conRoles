@@ -15,6 +15,10 @@ module.exports = async () => {
       lastname: faker.name.lastName(),
       email: faker.internet.email(),
       password: encryptedPassword,
+      role: faker.datatype.number({
+        min: 1,
+        max: 4,
+      }),
     });
   }
 

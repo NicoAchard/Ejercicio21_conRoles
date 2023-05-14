@@ -21,10 +21,23 @@ const { Article } = require("../models");
 function buttonNavbar(req) {
   let textoBoton = "";
   let ruta = "";
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === 4) {
     textoBoton = "Lista de articulos";
-    textoBotonB = "Log Out";
     ruta = "/panel/admin";
+    textoBotonB = "Log Out";
+    rutaB = "/panel/logout";
+  } else if (req.isAuthenticated() && req.user.role === 3) {
+    textoBoton = "Lista de articulos";
+    ruta = "/panel/admin";
+    textoBotonB = "Log Out";
+    rutaB = "/panel/logout";
+  } else if (req.isAuthenticated() && req.user.role === 2) {
+    textoBoton = "Lista de articulos";
+    ruta = "/panel/admin";
+    textoBotonB = "Log Out";
+    rutaB = "/panel/logout";
+  } else if (req.isAuthenticated()) {
+    textoBotonB = "Log Out";
     rutaB = "/panel/logout";
   } else {
     textoBoton = "Login";

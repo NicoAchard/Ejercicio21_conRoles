@@ -15,6 +15,7 @@
     />
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
+
   <body>
     <section id="section-header">
       <%- include("partials/navbar", {loginBtn: textoBoton, link: ruta, loginBtnB:
@@ -23,11 +24,15 @@
     <section class="section-content">
       <div class="container">
         <div class="row">
-          <div class="col"><h3 id="tituloTabla">Articles</h3></div>
+          <div class="col">
+            <h3 id="tituloTabla">Articles</h3>
+          </div>
 
           <div class="col text-end">
+            <% if(user.role===4||user.role===3||user.role===2){ %>
             <a id="btn-nuevo" href="/panel/crear" class="btn btn-success">Nuevo</a>
           </div>
+          <% } %>
         </div>
         <div class="mt-3">
           <table id="articlesTable" class="table table-light table-striped table-hover">
@@ -44,17 +49,14 @@
             </thead>
             <tbody class="text-center">
               <% for (const article of articles) { %>
-              <tr
-                style="cursor: pointer"
-                onclick="document.location='/panel/articulos/<%=article.id%>'"
-              >
+              <tr style="cursor: pointer" onclick="document.location='/articulos/<%=article.id%>'">
                 <td><%= article.id %></td>
 
                 <td><%= article.title %></td>
 
                 <td id="content"><%= article.content.slice(0, 50) %>...</td>
                 <td>
-                  <%if (article.imageURL != null) {%>
+                  <%if (article.imageURL !=null) {%>
                   <img src="/img/<%=article.imageURL%>" class="urlImg" alt="" />
                   <%} else {%>
                   <img src="/img/jeshoots-com-pUAM5hPaCRI-unsplash.jpg" class="urlImg" alt="" />
@@ -73,7 +75,11 @@
                     </div>
                     <div class="ms-2">
                       <form method="POST" action="/panel/<%=article.id%>?_method=DELETE">
+                        <% if(user.role===4 || user.role===2){ %>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <% }else if ( article.author.lastname===user.lastname&&user.role===3){%>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <% } %>
                       </form>
                     </div>
                   </div>

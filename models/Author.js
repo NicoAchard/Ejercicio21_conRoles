@@ -25,6 +25,10 @@ class Author extends Model {
           type: DataTypes.STRING(100),
           allowNull: false,
         },
+        role: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
       },
       {
         sequelize,

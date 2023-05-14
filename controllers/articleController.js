@@ -5,24 +5,45 @@ const pagesController = require("./pagesController");
 
 // Display a listing of the resource.
 async function index(req, res) {
-  const articles = await Article.findAll({
-    include: "author",
-    where: {
-      authorId: req.user.id,
-    },
-    attributes: [
-      "id",
-      "title",
-      "imageURL",
-      "content",
-      [
-        sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
-        "createdAt",
+  if (req.user.role === 4 || req.user.role === 3) {
+    const articles = await Article.findAll({
+      include: "author",
+
+      attributes: [
+        "id",
+        "title",
+        "imageURL",
+        "content",
+        [
+          sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
+          "createdAt",
+        ],
       ],
-    ],
-  });
-  const { textoBoton, ruta } = pagesController.buttonNavbar(req);
-  res.render("admin", { articles, textoBoton, ruta });
+    });
+    const { textoBoton, ruta } = pagesController.buttonNavbar(req);
+    res.render("admin", { articles, textoBoton, ruta });
+  } else if (req.user.role === 2 || req.user.role === 1) {
+    const articles = await Article.findAll({
+      include: "author",
+      where: {
+        authorId: req.user.id,
+      },
+      attributes: [
+        "id",
+        "title",
+        "imageURL",
+        "content",
+        [
+          sequelize.fn("DATE_FORMAT", sequelize.col("Article.createdAt"), "%d/%m/%Y %H:%m"),
+          "createdAt",
+        ],
+      ],
+    });
+    const { textoBoton, ruta } = pagesController.buttonNavbar(req);
+    res.render("admin", { articles, textoBoton, ruta });
+  } else {
+    res.redirect("/login");
+  }
 }
 
 // Display the specified resource.
