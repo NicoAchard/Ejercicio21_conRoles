@@ -53,7 +53,7 @@
         <hr />
         <section id="section-article-comments">
           <div>
-            <form action="/comentarios/" method="POST">
+            <form action="/panel" method="POST">
               <div class="title-form">Add your comment</div>
               <% if (isLoggedIn) { %>
               <div class="mb-3">
@@ -86,12 +86,30 @@
               <div class="row">
                 <h4 class="mt-3"><%=comment.content%></h4>
                 <% const minutes = String(comment.createdAt.getMinutes())%>
-                <h5>
+                <h>
                   <%=`Creado por ${comment.author.firstname} ${comment.author.lastname} el
                   ${comment.createdAt.getDay()} del ${comment.createdAt.getMonth()} de
                   ${comment.createdAt.getFullYear()}
                   ${comment.createdAt.getHours()}:${minutes.padStart(2, '0')}`%>
                 </h5>
+                <div> 
+                  
+                  <form method="POST" action="/panel/<%=article.id%>?_method=DELETE">
+                    <% if(user.role === 3 || user.role === 4){%>
+                <button type="submit" class="btn btn-danger float-end">Eliminar</button>
+               <% } %>
+              </form>
+              
+                <form
+                  method="POST"
+                  action="/panel/<%=article.id %>?_method=PATCH"
+                >
+                <% if(user.role === 3 || user.role === 4) {%>
+                <button type="submit" class=" mx-2 btn btn-primary float-end">Modificar</button>
+                <% } %>
+              </form>
+              </div>
+              </div>
                 <hr />
               </div>
               <% }%>
