@@ -20,7 +20,7 @@
   <body>
     <section id="section-header">
       <%- include("partials/navbar", {loginBtn: textoBoton, link: ruta, loginBtnB:
-      textoBotonB,linkB: rutaB }) %>
+      textoBotonB,linkB: rutaB, loginBtnC: textoBotonC, linkC: rutaC }) %>
       <div class="container-fluid p-0">
         <%if (article.imageURL != null) {%>
         <div id="image-article" style="background-image: url('../img/<%=article.imageURL%>')"></div>
@@ -92,26 +92,19 @@
                   ${comment.createdAt.getFullYear()}
                   ${comment.createdAt.getHours()}:${minutes.padStart(2, '0')}`%>
                 </h5>
-                <div> 
+                <div class= "d-flex justify-content-end"> 
                   
-                  <form method="POST" action="/panel/<%=article.id%>?_method=DELETE">
-                    <% if(user.role === 3 || user.role === 4){%>
-                <button type="submit" class="btn btn-danger float-end">Eliminar</button>
-               <% } %>
+                  <% if(isLoggedIn && user.role >= 3){%>
+                <button class="btn btn-primary "><a class=" text-white" href="/panel/comments/<%=comment.id%>/editar">Modificar</a></button> 
+                  <form method="POST" action="/panel/comments/<%=comment.id%>?_method=DELETE">
+                <button type="submit" class="btn btn-danger mx-2">Eliminar</button>
               </form>
               
-                <form
-                  method="POST"
-                  action="/panel/<%=article.id %>?_method=PATCH"
-                >
-                <% if(user.role === 3 || user.role === 4) {%>
-                <button type="submit" class=" mx-2 btn btn-primary float-end">Modificar</button>
-                <% } %>
-              </form>
+              <% } %>
+              
+             
               </div>
-              </div>
-                <hr />
-              </div>
+              
               <% }%>
             </div>
           </div>

@@ -18,31 +18,13 @@
   <body>
     <section id="section-header">
       <%- include("partials/navbar", {loginBtn: textoBoton, link: ruta, loginBtnB:
-      textoBotonB,linkB: rutaB, loginBtnC: textoBotonC, linkC: rutaC }) %>
+      textoBotonB,linkB: rutaB, loginBtnC: textoBotonC, linkC: rutaC  }) %>
     </section>
+
     <section id="createForm" class="section-content">
       <div class="container shadow rounded p-5 mt-5">
-        <form
-          method="POST"
-          action="/panel/<%=article.id %>?_method=PATCH"
-          enctype="multipart/form-data"
-        >
-          <div class="mb-3">
-            <label for="articleTitle" class="form-label">Título</label>
-            <input
-              type="text"
-              class="form-control"
-              id="articletitle"
-              value="<%=article.title%>"
-              name="title"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="articleImage" class="form-label">Insertar imagen</label>
-            <input class="form-control" type="file" id="articleImage" name="image" />
-          </div>
-          <div class="mb-3">
-            <label for="articleContent" class="form-label">Contenido</label>
+        <form method="post" action="/panel/comments/<%=comment.id%>/editar?_method=PATCH"> 
+        <label for="articleContent" class="form-label fw-bold">Comentario a editar</label>
             <textarea
               type="text"
               class="form-control"
@@ -50,11 +32,12 @@
               style="height: 100px"
               name="content"
             >
-<%=article.content%></textarea
+            <%=comment.content%></textarea
             >
+            <button type="submit" class="btn btn-primary form-control mt-3">Guardar cambios</button>
           </div>
 
-          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          
         </form>
       </div>
     </section>
@@ -67,4 +50,4 @@
       crossorigin="anonymous"
     ></script>
   </body>
-</html>
+</htm>

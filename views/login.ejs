@@ -16,7 +16,7 @@
   </head>
   <body>
     <%- include("partials/navbar", {loginBtn: textoBoton, link: ruta, loginBtnB: textoBotonB,linkB:
-    rutaB }) %>
+    rutaB, loginBtnC: textoBotonC, linkC: rutaC }) %>
     <div class="container section-content">
       <form action="/login" method="POST" class="w-50 mx-auto">
         <% if(failureFlash.length !== 0){%>

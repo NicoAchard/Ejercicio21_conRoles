@@ -21,11 +21,15 @@ const { Article } = require("../models");
 function buttonNavbar(req) {
   let textoBoton = "";
   let ruta = "";
+  let textoBotonC = "";
+  let rutaC = "";
   if (req.isAuthenticated() && req.user.role === 4) {
     textoBoton = "Lista de articulos";
     ruta = "/panel/admin";
     textoBotonB = "Log Out";
     rutaB = "/panel/logout";
+    textoBotonC = "Lista de usuarios";
+    rutaC = "/panel/admin/usersList";
   } else if (req.isAuthenticated() && req.user.role === 3) {
     textoBoton = "Lista de articulos";
     ruta = "/panel/admin";
@@ -45,7 +49,7 @@ function buttonNavbar(req) {
     ruta = "/login";
     rutaB = "/registrarse";
   }
-  return { textoBoton, ruta, textoBotonB, rutaB };
+  return { textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC };
 }
 
 function sendCommentButton(req) {
@@ -57,8 +61,8 @@ async function showHome(req, res) {
     order: [["createdAt", "DESC"]],
     include: "author",
   });
-  const { textoBoton, ruta } = buttonNavbar(req);
-  res.render("home", { articles, textoBoton, ruta, textoBotonB, rutaB });
+  const { textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC } = buttonNavbar(req);
+  res.render("home", { articles, textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC });
 }
 
 async function showContact(req, res) {

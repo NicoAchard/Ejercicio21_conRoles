@@ -20,8 +20,9 @@ async function index(req, res) {
         ],
       ],
     });
-    const { textoBoton, ruta } = pagesController.buttonNavbar(req);
-    res.render("admin", { articles, textoBoton, ruta });
+    const { textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC } =
+      pagesController.buttonNavbar(req);
+    res.render("admin", { articles, textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC });
   } else if (req.user.role === 2 || req.user.role === 1) {
     const articles = await Article.findAll({
       include: "author",
@@ -39,8 +40,9 @@ async function index(req, res) {
         ],
       ],
     });
-    const { textoBoton, ruta } = pagesController.buttonNavbar(req);
-    res.render("admin", { articles, textoBoton, ruta });
+    const { textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC } =
+      pagesController.buttonNavbar(req);
+    res.render("admin", { articles, textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC });
   } else {
     res.redirect("/login");
   }
@@ -53,7 +55,8 @@ async function show(req, res) {
     order: [["comments", "createdAt", "DESC"]],
   });
 
-  const { textoBoton, ruta } = pagesController.buttonNavbar(req);
+  const { textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC } =
+    pagesController.buttonNavbar(req);
   const isLoggedIn = pagesController.sendCommentButton(req);
 
   let userFirstname = "";
@@ -71,13 +74,18 @@ async function show(req, res) {
     isLoggedIn,
     userFirstname,
     userLastname,
+    textoBotonB,
+    rutaB,
+    textoBotonC,
+    rutaC,
   });
 }
 
 // Show the form for creating a new resource
 async function create(req, res) {
-  const { textoBoton, ruta } = pagesController.buttonNavbar(req);
-  res.render("createArticle", { textoBoton, ruta });
+  const { textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC } =
+    pagesController.buttonNavbar(req);
+  res.render("createArticle", { textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC });
 }
 
 // Store a newly created resource in storage.
@@ -105,8 +113,17 @@ async function store(req, res) {
 // Show the form for editing the specified resource.
 async function edit(req, res) {
   const article = await Article.findByPk(req.params.id);
-  const { textoBoton, ruta } = pagesController.buttonNavbar(req);
-  req.body.title = res.render("editArticle", { article, textoBoton, ruta });
+  const { textoBoton, ruta, textoBotonB, rutaB, textoBotonC, rutaC } =
+    pagesController.buttonNavbar(req);
+  req.body.title = res.render("editArticle", {
+    article,
+    textoBoton,
+    ruta,
+    textoBotonB,
+    rutaB,
+    textoBotonC,
+    rutaC,
+  });
 }
 
 // Update the specified resource in storage.
@@ -126,7 +143,6 @@ async function update(req, res) {
         title: fields.title,
         content: fields.content,
         imageURL: files.image.newFilename,
-        authorId: req.user.id,
       },
       {
         where: { id: req.params.id },
